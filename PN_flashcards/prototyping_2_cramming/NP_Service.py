@@ -1,3 +1,4 @@
+from singleton import Singleton
 import re
 filename_pattern = r"(?P<name>[a-zA-Z0-9_\s-]+)-(?P<memo>[a-zA-Z0-9_\s-]+).png"
 filename_pattern = re.compile(filename_pattern)
@@ -6,20 +7,12 @@ import os
 from collections import deque
 MAX_QUEUE_LEN = 64
 from random import shuffle
-class Not_a_Dir(Exception):
-    pass
-class Index_Out_of_Bound(Exception):
-    pass
-class Unset_Directory(Exception):
-    pass
-class No_More_Assignment_Left(Exception):
-    pass
+from NPexception import *
+@Singleton
 class NP_Service:
 
     def __init__(self):
-        self._working_path = '.'
-        self._directories = []
-        self._directory = None
+        self._working_path = 'Resources'
         self._assignments = deque([])
         self._assignments_need_review = deque([])
         self._assignments_done = deque([], MAX_QUEUE_LEN)
@@ -27,8 +20,6 @@ class NP_Service:
     def __str__(self):
         rslt = ''
         rslt += "Current working path: " + str(self._working_path) + '\n'
-        rslt += "It contains directories: " + str(self._directories) + '\n'
-        rslt += "The NP_Service is now reading the directory: " + str(self._directory) + '\n'
         rslt += "The _assignments: " + str(self._assignments) + '\n'
         rslt += "Assignments finished: " + str(self._assignments_done) + '\n'
         rslt += "Assignments need to be reviewed: " + str(self._assignments_need_review) + '\n'
@@ -39,25 +30,16 @@ class NP_Service:
     def set_working_path(self, working_path):
         if os.path.isdir(working_path):
             self._working_path = working_path
-            self._directory = None
-            self._get_directories()
         else:
             raise Not_a_Dir()
-    def _get_directories(self):
-        self._directories = [f.path for f in os.scandir(self._working_path) if f.is_dir()]
-    def set_directory(self, to_index_of_directories):
-        if to_index_of_directories < 0 or to_index_of_directories >= len(self._directories):
-            raise Index_Out_of_Bound()
-        else:
-            self._directory = self._directories[to_index_of_directories]
     
     # Photo assignments builder
     def assignments_constructor(self, random_order = True):
-        if self._directory == None:
+        if not os.path.isdir(self._working_path):
             raise Unset_Directory()
         self._assignments = deque([])
         global filename_pattern
-        for filename in os.listdir(self._directory):
+        for filename in os.listdir(self._working_path):
             t = filename_pattern.match(filename)
             if not t == None:
                 self._assignments.append({
@@ -94,12 +76,12 @@ class NP_Service:
         self._assignments_done.append(tmp)
 
 if __name__ == '__main__':
-    test = NP_Service()
-    working_path = 'Resources'
     import random
+    from tkinter import filedialog
+    test = NP_Service.instance()
+    working_path = filedialog.askdirectory(title='Choose a directory where you put your photos into')
     try:
         test.set_working_path(working_path)
-        test.set_directory(1)
         test.assignments_constructor()
 
         init_len = len(test._assignments)
