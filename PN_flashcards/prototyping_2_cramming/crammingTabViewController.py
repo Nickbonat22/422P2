@@ -64,8 +64,7 @@ class CrammingTabViewController:
                 (int(imageSizeWidth//ratio), int(imageSizeHeight//ratio)), 
                 Image.ANTIALIAS)
             self.CrammingTabView_delegate.curr_portrait = ImageTk.PhotoImage(self.CrammingTabView_delegate.curr_portrait_im)
-            self.CrammingTabView_delegate.portrait_label.config(text=None)
-            self.CrammingTabView_delegate.portrait_label.config(image=self.CrammingTabView_delegate.curr_portrait)
+            self.CrammingTabView_delegate.portrait_label.config(text="", image=self.CrammingTabView_delegate.curr_portrait)
         except Exception as e:
             print(e)
             self.CrammingTabView_delegate.portrait_label.config(
