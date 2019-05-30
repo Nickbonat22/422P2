@@ -8,11 +8,13 @@ from collections import deque
 MAX_QUEUE_LEN = 64
 from random import shuffle
 from NPexception import *
+import imghdr
 @Singleton
 class NP_Service:
 
     def __init__(self):
         self._working_path = 'Resources'
+        self._targets = []
         self._assignments = deque([])
         self._assignments_need_review = deque([])
         self._assignments_done = deque([], MAX_QUEUE_LEN)
@@ -30,24 +32,27 @@ class NP_Service:
     def set_working_path(self, working_path):
         if os.path.isdir(working_path):
             self._working_path = working_path
+            global filename_pattern
+            for filename in os.listdir(self._working_path):
+                t = filename_pattern.match(filename)
+                if not t == None:
+                    path = os.path.join(self._working_path, filename)
+                    if not imghdr.what(path) == None:
+                        file_entity = {
+                            'filename': filename,
+                            'name': t.group("name"),
+                            'memo': t.group("memo"),
+                        }
+                        self._targets.append(file_entity)
         else:
             raise Not_a_Dir()
     
     # Photo assignments builder
     def assignments_constructor(self, random_order = True):
-        if not os.path.isdir(self._working_path):
-            raise Unset_Directory()
         self._assignments = deque([])
-        global filename_pattern
-        for filename in os.listdir(self._working_path):
-            t = filename_pattern.match(filename)
-            if not t == None:
-                self._assignments.append({
-                        'filename': filename, 
-                        'name': t.group("name"),
-                        'memo':t.group("memo"),
-                        'remember': False
-                    })
+        for file_entity in self._targets:
+            file_entity['remember'] = False
+            self._assignments.append(file_entity)
         if random_order == True:
             shuffle(self._assignments)
     
