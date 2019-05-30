@@ -9,9 +9,12 @@ from setuptools import setup
 
 APP = ['main.py']
 DATA_FILES = []
-OPTIONS = {}
+OPTIONS = {
+	'iconfile':'icon.icns'
+}
 
 setup(
+	name='Photo-Name Trainer',
     app=APP,
     data_files=DATA_FILES,
     options={'py2app': OPTIONS},
