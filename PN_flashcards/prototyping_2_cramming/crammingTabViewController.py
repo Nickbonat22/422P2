@@ -13,6 +13,12 @@ class CrammingTabViewController:
         except Exception as e:
             print(e)
     
+    def bind_reset_btn_to(self, func):
+        try:
+            self.CrammingTabView_delegate.reset_btn.bind('<Button-1>', func)
+        except Exception as e:
+            print(e)
+
     def bind_forgot_btn_to(self, func):
         try:
             self.CrammingTabView_delegate.forgot_btn.bind('<Button-1>', func)
@@ -51,10 +57,24 @@ class CrammingTabViewController:
                 text = "Well done!!! You are all set!!! For now."
         )
         self.isFinished = True
-        self.switch_flashcard_side(None)
+        self.switch_flashcard_side()
+    
+    def reset(self):
+        self.isFinished = False
+        self.CrammingTabView_delegate.reset_btn.grid_remove()
+        self.CrammingTabView_delegate.good_btn.grid()
+        self.CrammingTabView_delegate.forgot_btn.grid()
+        self.switch_flashcard_side()
 
-    def switch_flashcard_side(self, event):
-        if self.isFront and not self.isFinished:
+    def switch_flashcard_side(self):
+        if self.isFinished:
+            self.isFront = True
+            self._show_labels()
+            self._show_btns()
+            self.CrammingTabView_delegate.reset_btn.grid()
+            self.CrammingTabView_delegate.good_btn.grid_remove()
+            self.CrammingTabView_delegate.forgot_btn.grid_remove()
+        elif self.isFront:
             self.isFront = False
             self._show_labels()
             self._show_btns()
@@ -62,6 +82,7 @@ class CrammingTabViewController:
             self.isFront = True
             self._hide_labels()
             self._hide_btns()
+        return self.isFront
     
     def _show_labels(self):
         self.CrammingTabView_delegate.name_label.grid()

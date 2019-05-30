@@ -7,6 +7,7 @@ class CrammingTabView(Frame):
         
         self.btns_frame = Frame(self)
         self.good_btn = Button(self.btns_frame, text="Good", bg='green', highlightbackground='green')
+        self.reset_btn = Button(self.btns_frame, text="Try again", bg='blue', highlightbackground='blue')
         self.forgot_btn = Button(self.btns_frame, text="Forgot", bg='red', highlightbackground='red')
         
         self.label_frame = Frame(self)
@@ -27,8 +28,10 @@ class CrammingTabView(Frame):
         Grid.columnconfigure(self.btns_frame, 1, weight=1)
         Grid.columnconfigure(self.btns_frame, 2, weight=1)
         self.forgot_btn.grid(row=0, column=0,sticky=(N,S,E,W))
+        self.reset_btn.grid(row=0, column=1, sticky=(N,S,E,W))
         self.good_btn.grid(row=0, column=2,sticky=(N,S,E,W))
         
+        self.reset_btn.grid_remove()
         self.btns_frame.grid_remove()
 
 
