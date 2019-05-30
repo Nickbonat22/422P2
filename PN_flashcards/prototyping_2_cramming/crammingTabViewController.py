@@ -1,29 +1,58 @@
+#!/usr/bin/env python3
+'''
+Author: Jerry Xie
+
+Created on: May 16, 2019
+
+Last modified by: Jerry Xie @ May 30, 2019
+
+Effect: Handled widgets' transition logic.
+
+'''
+import os
 from NPexception import *
 from tkinter import *
+from NP_Service import NP_Service
+from NPexception import *
 from PIL import Image, ImageTk
 class CrammingTabViewController:
     def __init__(self, manage_view):
         self.isFront = False
         self.isFinished = False
         self.CrammingTabView_delegate = manage_view
-    
-    def bind_good_btn_to(self, func):
-        try:
-            self.CrammingTabView_delegate.good_btn.bind('<Button-1>', func)
-        except Exception as e:
-            print(e)
-    
-    def bind_reset_btn_to(self, func):
-        try:
-            self.CrammingTabView_delegate.reset_btn.bind('<Button-1>', func)
-        except Exception as e:
-            print(e)
+        self.CrammingTabView_delegate.good_btn.bind('<Button-1>', lambda e: self.perform_and_update_info(1))
+        self.CrammingTabView_delegate.forgot_btn.bind('<Button-1>', lambda e: self.perform_and_update_info(0))
+        self.CrammingTabView_delegate.reset_btn.bind('<Button-1>', lambda e: self.reset())
+        self.update_info()
 
-    def bind_forgot_btn_to(self, func):
+    def update_info(self):
         try:
-            self.CrammingTabView_delegate.forgot_btn.bind('<Button-1>', func)
+            next_assignment = NP_Service.instance().peek_next_assignment()
+            self.update_portrait(
+                os.path.join(
+                    NP_Service.instance()._working_path, 
+                    next_assignment['filename']
+                )
+            )
+            self.update_name(next_assignment['name'])
+            self.update_memo(next_assignment['memo'])
+            self.isFront = self.switch_flashcard_side()
+        except No_More_Assignment_Left as e:
+            print("No more assignment")
+            self.all_set()
         except Exception as e:
-            print(e)
+            raise e
+
+    def perform_and_update_info(self, performance_diagnosis:int):
+        if not self.isFront == True:
+            try:
+                NP_Service.instance().schedule_next_assignment(performance_diagnosis)
+                self.update_info()
+            except No_More_Assignment_Left as e:
+                print("No more assignment")
+                self.all_set()
+            except Exception as e:
+                raise e
     
     def update_portrait(self, with_image_file_path):
         try:
@@ -65,6 +94,12 @@ class CrammingTabViewController:
         self.CrammingTabView_delegate.good_btn.grid()
         self.CrammingTabView_delegate.forgot_btn.grid()
         self.switch_flashcard_side()
+
+        try:
+            NP_Service.instance().assignments_constructor()
+            self.update_info()
+        except Exception as e:
+            raise(e)
 
     def switch_flashcard_side(self):
         if self.isFinished:

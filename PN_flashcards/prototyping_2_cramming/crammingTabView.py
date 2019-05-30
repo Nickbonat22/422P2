@@ -1,3 +1,14 @@
+#!/usr/bin/env python3
+'''
+Author: Jerry Xie
+
+Created on: May 16, 2019
+
+Last modified by: Jerry Xie @ May 30, 2019
+
+Effect: Defined the widgets' position and other view properties
+
+'''
 from tkinter import *
 
 class CrammingTabView(Frame):

@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 '''
-CIS 422 Project 1
 Author: Jerry Xie
-Created on: Apr 14, 2019
-Last modified by: Jerry Xie @ Apr 27, 2019
-Effect: Define widgets in the main window
+Created on: May 16, 2019
+Last modified by: Jerry Xie @ May 30, 2019
+Effect: Define tab views in the main window
             i.e. tab/size/style/position/constraints
 '''
 from tkinter import *

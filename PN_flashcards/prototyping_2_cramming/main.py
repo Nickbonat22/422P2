@@ -1,3 +1,14 @@
+#!/usr/bin/env python3
+'''
+Author: Jerry Xie
+
+Created on: May 16, 2019
+
+Last modified by: Jerry Xie @ May 30, 2019
+
+Effect: Set environment variables; start the app's GUI
+
+'''
 from mainViewController import *
 import tkinter.filedialog
 from tkinter import *
