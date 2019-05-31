@@ -16,15 +16,12 @@ from NP_Service import *
 from NPexception import *
 try:
     root_window = Tk()
-    root_window.title("NP Trainer")
     root_window.geometry("500x500")
+    root_window.title('Choose a photo directory')
     Got_a_path = False
     while True:
         root_window.update()
-        working_path = filedialog.askdirectory(
-            parent=root_window, 
-            initialdir=os.getcwd(), 
-            title='Choose a directory where you put your photos into')
+        working_path = filedialog.askdirectory(initialdir=os.getcwd())
         if working_path:
             try:
                 NP_Service.instance().set_working_path(working_path)

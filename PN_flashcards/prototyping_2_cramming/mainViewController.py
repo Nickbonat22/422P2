@@ -15,6 +15,8 @@ class MainViewController():
     def __init__(self, root_window):
         # The root window
         self.root = root_window
+        self.root.geometry("500x500")
+        self.root.title("NP Trainer")
         # Adaptive view setting
         rows = 0
         while rows < 50:
@@ -23,8 +25,8 @@ class MainViewController():
             rows += 1
         
         self.CrammingTabViewControllerDelegate = None
-        self.mainView = MainView(self.root, self)
-        assert(not self.CrammingTabViewControllerDelegate == None)
+        self.mainView = MainView(self.root)
+        self.CrammingTabViewControllerDelegate = CrammingTabViewController(self.mainView.tab1)
         self.mainView.grid(row=0, column=0, columnspan=50, rowspan=50, sticky=(N,W,S,E))
         self.root.bind('<space>', lambda e: self.CrammingTabViewControllerDelegate.switch_flashcard_side())
         self.root.bind('1', lambda e: self.CrammingTabViewControllerDelegate.perform_and_update_info(1))

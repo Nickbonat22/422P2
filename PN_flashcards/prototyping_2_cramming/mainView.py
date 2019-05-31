@@ -11,8 +11,7 @@ from tkinter.ttk import *
 from crammingTabView import *
 from crammingTabViewController import *
 class MainView(Frame):
-    def __init__(self, master, delegate):
-        self.MainViewDelegate = delegate
+    def __init__(self, master):
         Frame.__init__(self, master)
 
         self.nb = Notebook(self)
@@ -21,5 +20,4 @@ class MainView(Frame):
         self.nb.grid(row=0, column=0, sticky=(N,W,S,E))
         
         self.tab1 = CrammingTabView(self.nb)
-        self.MainViewDelegate.CrammingTabViewControllerDelegate = CrammingTabViewController(self.tab1)
         self.nb.add(self.tab1, text="Cram")
