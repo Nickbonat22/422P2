@@ -146,7 +146,6 @@ class MainViewController():
         Label(self.howto_popup,text=using_app_1).grid()
         Label(self.howto_popup,text=using_app_2).grid()
         Label(self.howto_popup,text=using_app_3).grid()
-        Label(self.howto_popup,text=using_app_4).grid()
         Button(self.howto_popup,text='OK',command=onclosing).grid()
 
         self.howto_popup.transient(self.root)
