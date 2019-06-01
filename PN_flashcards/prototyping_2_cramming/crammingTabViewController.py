@@ -78,12 +78,9 @@ class CrammingTabViewController:
         self.CrammingTabView_delegate.memo_label.config(text=new_memo)
     
     def all_set(self):
-        self.update_name("Well done!!! You are all set!!! For now.")
-        self.update_memo("Well done!!! You are all set!!! For now.")
-        self.CrammingTabView_delegate.portrait_label.config(
-                image = '', 
-                text = "Well done!!! You are all set!!! For now."
-        )
+        self.update_name("Well done!!! You are all set!!!")
+        self.update_memo("For now.")
+        self.CrammingTabView_delegate.portrait_label.grid_remove()
         self.isFinished = True
         self.switch_flashcard_side()
     
@@ -92,7 +89,7 @@ class CrammingTabViewController:
         self.CrammingTabView_delegate.reset_btn.grid_remove()
         self.CrammingTabView_delegate.good_btn.grid()
         self.CrammingTabView_delegate.forgot_btn.grid()
-        self.switch_flashcard_side()
+        self.CrammingTabView_delegate.portrait_label.grid()
 
         try:
             NP_Service.instance().assignments_constructor()
@@ -102,7 +99,7 @@ class CrammingTabViewController:
 
     def switch_flashcard_side(self):
         if self.isFinished:
-            self.isFront = True
+            self.isFront = False
             self._show_labels()
             self._show_btns()
             self.CrammingTabView_delegate.reset_btn.grid()
