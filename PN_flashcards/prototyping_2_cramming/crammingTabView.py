@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 '''
-Author: Jerry Xie
+Authors: Nicholas Bonat, Jerry Xie
 
 Created on: May 16, 2019
 
@@ -10,12 +10,14 @@ Effect: Defined the widgets' position and other view properties
 
 '''
 from tkinter import *
+from tkinter.font import Font
 
 class CrammingTabView(Frame):
     def __init__(self, master):
         Frame.__init__(self, master)
         self.grid(row=0, column=0, sticky=(N,S,E,W))
         
+        self.label_font = Font(self.master, family='Arial', size=12)
         self.btns_frame = Frame(self)
         self.good_btn = Button(self.btns_frame, text="Good", bg='green', highlightbackground='green')
         self.reset_btn = Button(self.btns_frame, text="Try again", bg='blue', highlightbackground='blue')
@@ -23,8 +25,8 @@ class CrammingTabView(Frame):
         
         self.label_frame = Frame(self)
         self.portrait_label = Label(self.label_frame, wraplengt=200)
-        self.name_label = Label(self.label_frame, text="Name's Label", wraplengt=200)
-        self.memo_label = Label(self.label_frame, text="Memo's Label", wraplengt=200)
+        self.name_label = Label(self.label_frame, text="Name's Label", font=self.label_font, wraplengt=200)
+        self.memo_label = Label(self.label_frame, text="Memo's Label", font=self.label_font, wraplengt=200)
 
         self._config_btns()
         self._config_portrait_with_label()
