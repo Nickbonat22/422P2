@@ -11,6 +11,7 @@ Effect: Binded global keystrokes and handled tab views' transition logic.
 '''
 from mainView import *
 from NPexception import *
+from crammingTabView import CrammingTabView
 
 class MainViewController():
     def __init__(self, root_window):
@@ -22,6 +23,7 @@ class MainViewController():
         self.aboutme_popup = None
         self.fontsize_popup = None
         self.howto_popup = None
+
 
         # Adaptive view setting
         rows = 0
@@ -38,19 +40,9 @@ class MainViewController():
         self.root.bind('1', lambda e: self.CrammingTabViewControllerDelegate.perform_and_update_info(1))
         self.root.bind('2', lambda e: self.CrammingTabViewControllerDelegate.perform_and_update_info(0))
 
+        self.cramming_tab_view = self.mainView.get_cramming_tab_view()
+
         self.createMenu()
-
-    def import_directory(self):
-        if(self.mainView.nb.index("current") == 0 and self.num_popup == 0):
-            path_with_file_name = filedialog.askopenfilename(title='Choose your csv/tsv file', filetypes=(('CSV', '*.csv'),('TSV', '*.tsv')))
-            rslt = IO.instance().importRoster(path_with_file_name)
-            if(rslt[0] == 1):
-                self.not_found_window()
-            elif(rslt[0] == 2):
-                self.overwrite_window(rslt[1], path_with_file_name)
-            else:
-                self.update_students_info()
-
 
     # top bar menu methods - Nicholas Bonat
 
@@ -82,11 +74,11 @@ class MainViewController():
         
         listbox = Listbox(self.fontsize_popup)
         for i in range(12, 25):listbox.insert(END, i)
-        listbox.select_set(int(self.CrammingTabViewControllerDelegate.label_font['size']) - 12)
+        listbox.select_set(int(self.cramming_tab_view.label_font['size']) - 12)
         listbox.grid(row=0, column=1)
         
         onOk = lambda: self.destory_popup_window_after(self.fontsize_popup, 
-            lambda: self.CrammingTabViewControllerDelegate.label_font.config(size=listbox.get(ANCHOR)))
+            lambda: self.cramming_tab_view.label_font.config(size=listbox.get(ANCHOR)))
         Button(self.fontsize_popup,text='OK',command=onOk).grid(row=1, column=0)
         Button(self.fontsize_popup,text='Cancel',command=onclosing).grid(row=1, column=1)
         self.fontsize_popup.transient(self.root)
@@ -155,10 +147,6 @@ class MainViewController():
     def createMenu(self):
         self.menu = Menu(self.root)
         self.root.config(menu=self.menu)
-        self.submenu = Menu(self.menu)
-        self.menu.add_cascade(label="Choose Directory",menu=self.submenu)
-        self.submenu.add_command(label="Select a Path", command=self.import_directory)
-
         self.submenu2 = Menu(self.menu)
         self.menu.add_cascade(label="Help",menu=self.submenu2)
         self.submenu2.add_command(label="Font Size", command=self.font_size_window)
