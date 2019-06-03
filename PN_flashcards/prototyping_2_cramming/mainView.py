@@ -21,3 +21,6 @@ class MainView(Frame):
         
         self.tab1 = CrammingTabView(self.nb)
         self.nb.add(self.tab1, text="Cram")
+
+    def get_cramming_tab_view(self):
+    	return self.tab1
