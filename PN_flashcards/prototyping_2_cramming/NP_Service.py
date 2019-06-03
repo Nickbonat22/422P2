@@ -1,6 +1,6 @@
 from singleton import Singleton
 import re
-filename_pattern = r"(?P<name>[a-zA-Z0-9_\s-]+)-(?P<memo>[a-zA-Z0-9_\s-]+).(?:gif|jpg|jpeg|tiff|png)"
+filename_pattern = r"(?P<name>[a-zA-Z0-9*!+_\s-]+)-(?P<memo>[a-zA-Z0-9*!+_\s-]+).(?:gif|jpg|jpeg|tiff|png)"
 filename_pattern = re.compile(filename_pattern)
 
 import os
@@ -81,6 +81,7 @@ class NP_Service:
                         'memo': t.group("memo"),
                     }
                     self._assignments.append(file_entity)
+            self.added = set()
 
     # Filename and path parser
     def set_working_path(self, working_path):

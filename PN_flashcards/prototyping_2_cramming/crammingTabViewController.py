@@ -6,7 +6,7 @@ Created on: May 16, 2019
 
 Last modified by: Jerry Xie @ May 30, 2019
 
-Effect: Handled widgets' transition logic.
+Effect: Handled widgets' transition logic in the crammingTabView
 
 '''
 import os
