@@ -1,0 +1,40 @@
+Photo Name Trainer
+Programmer’s Documentation
+Jerry Xie - June 2, 2019
+This documentation will demonstrate the structure of Photo Name Trainer app and shows possible ways
+to improve the code for anyone with interest. The following is the outline of this documentation:
+
+1. Execution sequence
+2. The functionality of the NP_Service
+3. The functionality of the mainView
+4. The functionality of the mainViewController
+5. The functionality of the crammingTabView
+6. The functionality of the crammingTabViewController
+7. The functionality of the NPexception
+
+1. Execution sequence includes the following procedures:
+    A. Firstly, a path to the photo files' directory as a string is needed; the app would ask for a directory at the beginning of execution in main.py.
+    B. Then, the NP_Service's working path needs to be set by calling the set_working_path(working_path: str) function of it, which is done after procedure A in main.py.
+    C. After that in order to build a queue of photo-memo pairs from the photo files in the directory, assignments_constructor() in NP_Service needs to be called; this is also done in main.py.
+    D. Now use peek_next_assignment() in NP_Service to get the next photo-memo pair, and use schedule_next_assignment() to assess the current pair and move the next pair to the top of the queue; which are the only two functions being called from the interface.
+2. NP_Service is a singleton service that manages all the photo-memo pairs in the current reviewing session, which contains the following components:
+    A. Filename parser: a component that iterates through the current working path, look for photos with a suitable file name, and extract useful information such as name and memo from it as a dictionary.
+    B. Photo-memo pair, or assignment, builder: a component that puts dictionaries containing parsed information into a queue.
+    C. Scheduler: A component that is responsible for dequeuing operation for the photo-memo pairs.
+    D. Detection of any change in the current directory: a component that checks whether some photo files have been added or removed in the working path or not.
+    E. Handler to any change in the current directory: a component that compares the updated files in the current working path with the imported photos files and conducts addition or removal in the queue according to files in the current working path.
+3. The mainView is a Tab View container that currently only contains the crammingTabView.
+4. The mainViewController Handles the interactions of widgets in the MainView, such as command in the top-bar menu, and keystrokes mapping*.
+    * The reason why the three cramming mode keystrokes, namely "space", "1" and "2", are bound here is because of the mechanism inside Tkinter's Notebook. If I bind the keystrokes to the crammingTabView, it would not respond. Since there is not enough documentation addressing the keystroke binding for Tkinter tab views, this is the best I can do for now.
+5. The crammingTabView is a tab view that includes buttons and labels needed for the cramming mode of the system.
+6. The crammingTabViewController binds two methods in NP_Service mentioned above to crammingTabVie's buttons.
+7. The NPexception defines some special exception when running the app.
+
+ I hope this documentation would help developers with interests in this system modify and
+improve it. We have tried our best to give each method and variable a self-explanatory name, and
+add potentially helpful comments over possibly confusing procedures. After reading this
+documentation, you should be easier to read our source code and do modification on it.
+Acknowledgments:
+Format inspired by World Tax Planner Programmer’s Documentation by Anthony Hornof.
+Link:
+https://classes.cs.uoregon.edu/19S/cis422/Handouts/CALCDOC_World_Tax_Planner.TXT

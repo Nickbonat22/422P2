@@ -17,6 +17,10 @@ from NPexception import *
 from PIL import Image, ImageTk
 class CrammingTabViewController:
     def __init__(self, manage_view):
+        '''
+        Initilizing states of the tabview;
+        Binding functions to buttons inside the tabview
+        '''
         self.isFront = False
         self.isFinished = False
         self.CrammingTabView_delegate = manage_view
@@ -26,6 +30,9 @@ class CrammingTabViewController:
         self.update_info()
 
     def update_info(self):
+        '''
+        updating the tabview to display next photo-memo pair
+        '''
         try:
             next_assignment = NP_Service.instance().peek_next_assignment()
             self.update_portrait(
@@ -44,6 +51,10 @@ class CrammingTabViewController:
             raise e
 
     def perform_and_update_info(self, performance_diagnosis:int):
+        '''
+        Passing user's self-evaluation on the current photo-memo pair;
+        then updating the tabview to display next photo-memo pair
+        '''
         if not self.isFront == True:
             try:
                 NP_Service.instance().schedule_next_assignment(performance_diagnosis)
@@ -55,6 +66,10 @@ class CrammingTabViewController:
                 raise e
     
     def update_portrait(self, with_image_file_path):
+        '''
+        Taking care of the image label update;
+        making sure its size would fit into the interface
+        '''
         try:
             self.CrammingTabView_delegate.curr_portrait_im = Image.open(with_image_file_path)
             (imageSizeWidth, imageSizeHeight) = self.CrammingTabView_delegate.curr_portrait_im.size
@@ -78,6 +93,9 @@ class CrammingTabViewController:
         self.CrammingTabView_delegate.memo_label.config(text=new_memo)
     
     def all_set(self):
+        '''
+        Updating the tab view to notify the user that every photo-memo pair had shown.
+        '''
         self.update_name("Well done!!! You are all set!!!")
         self.update_memo("For now.")
         self.CrammingTabView_delegate.portrait_label.grid_remove()
@@ -85,6 +103,10 @@ class CrammingTabViewController:
         self.switch_flashcard_side()
     
     def reset(self):
+        '''
+        Resetting the tabeview state to the very beginning one so that the user could
+        go over the photo-memo pair again in a random order.
+        '''
         self.isFinished = False
         self.CrammingTabView_delegate.reset_btn.grid_remove()
         self.CrammingTabView_delegate.good_btn.grid()
@@ -98,6 +120,9 @@ class CrammingTabViewController:
             raise(e)
 
     def switch_flashcard_side(self):
+        '''
+        Updating the tabview to show/hide the memo labels
+        '''
         if self.isFinished:
             self.isFront = False
             self._show_labels()

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 '''
-Authors: Nicholas Bonat, Jerry Xie
+Contributors: Nicholas Bonat, Jerry Xie
 
 Created on: May 16, 2019
 

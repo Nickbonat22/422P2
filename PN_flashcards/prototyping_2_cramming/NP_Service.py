@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+'''
+Author: Jerry Xie
+Created on: May 16, 2019
+Last modified by: Jerry Xie @ May 30, 2019
+Effect: Providing the app services such as file difference detection, photo files parsing, photo-memo pairs building and scheduling.
+'''
 from singleton import Singleton
 import re
 filename_pattern = r"(?P<name>[a-zA-Z0-9*!+_\s-]+)-(?P<memo>[a-zA-Z0-9*!+_\s-]+).(?:gif|jpg|jpeg|tiff|png)"

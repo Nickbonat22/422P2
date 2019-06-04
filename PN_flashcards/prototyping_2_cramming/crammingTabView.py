@@ -14,6 +14,9 @@ from tkinter.font import Font
 
 class CrammingTabView(Frame):
     def __init__(self, master):
+        '''
+        Defining the elements inside the tab view
+        '''
         Frame.__init__(self, master)
         self.grid(row=0, column=0, sticky=(N,S,E,W))
         
@@ -32,6 +35,9 @@ class CrammingTabView(Frame):
         self._config_portrait_with_label()
 
     def _config_btns(self):
+        '''
+        A helper function to define buttons for self-evaluation
+        '''
         Grid.rowconfigure(self, 1, weight=1)
         Grid.columnconfigure(self, 0, weight=1)
         self.btns_frame.grid(row=2, column=0, sticky=(N,S,E,W))
@@ -47,8 +53,10 @@ class CrammingTabView(Frame):
         self.reset_btn.grid_remove()
         self.btns_frame.grid_remove()
 
-
     def _config_portrait_with_label(self):
+        '''
+        A helper function to define labels for displaying photo-memo pairs
+        '''
         Grid.rowconfigure(self, 0, weight=1)
         Grid.rowconfigure(self, 1, weight=1)
         Grid.columnconfigure(self, 0, weight=1)

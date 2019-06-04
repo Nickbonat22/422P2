@@ -6,7 +6,7 @@ Created on: May 16, 2019
 
 Last modified by: Jerry Xie @ May 30, 2019
 
-Effect: Set environment variables; start the app's GUI
+Effect: Setting environment variables; asking for a directory to look for photos before starting the app's GUI
 
 '''
 from mainViewController import *
